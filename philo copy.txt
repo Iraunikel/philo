@@ -328,7 +328,6 @@ int	create_threads(t_data *data, pthread_t *monitor)
 	return (1);
 }
 
-
 int	main(int argc, char **argv)
 {
 	t_data		data;
