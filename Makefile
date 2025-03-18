@@ -1,13 +1,45 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/03/18 12:19:31 by iunikel           #+#    #+#              #
+#    Updated: 2025/03/18 12:21:14 by iunikel          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = philo
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
+SRCS = philo.c \
+       init.c \
+       utils.c \
+       monitoring.c \
+       routine.c
+
+OBJS = $(SRCS:.c=.o)
+
+HEADERS = philo.h
+
 
 all: $(NAME)
 
-$(NAME):
-	$(CC) $(CFLAGS) -o $(NAME) philo.c
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
-clean:
+%.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:		
+	rm -f $(OBJS)
+
+fclean: clean
 	rm -f $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re
