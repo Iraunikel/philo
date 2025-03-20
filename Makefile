@@ -6,7 +6,7 @@
 #    By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/18 12:19:31 by iunikel           #+#    #+#              #
-#    Updated: 2025/03/18 12:21:14 by iunikel          ###   ########.fr        #
+#    Updated: 2025/03/18 18:22:30 by iunikel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,9 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCS = philo.c \
        init.c \
-       utils.c \
        monitoring.c \
-       routine.c
+       routine.c \
+       utils.c
 
 OBJS = $(SRCS:.c=.o)
 
