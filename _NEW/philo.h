@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:25:22 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/23 13:50:32 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/18 12:30:07 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_philo
 	pthread_t		thread;
 	struct s_data	*data;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	print_lock;
 	pthread_mutex_t	meal_lock;
 }					t_philo;
 
@@ -76,24 +77,19 @@ int					create_threads(t_data *data, pthread_t *monitor);
 void				*philosopher_routine(void *arg);
 void				print_state(t_philo *philo, char *message);
 int					take_forks(t_philo *philo);
-int					take_fork(t_philo *philo, int fork_id);
-int					philosopher_eat(t_philo *philo);
-void				handle_one_philo(t_philo *philo);
+void				release_forks(t_philo *philo);
 void				precise_sleep(int ms);
 
 /* Monitoring Functions */
 void				*death_monitor(void *arg);
 int					check_death(t_philo *philo);
 int					check_philosophers(t_data *data);
-void				handle_death(t_philo *philo);
+void				handle_death(t_data *data, int i);
 int					check_all_ate_enough(t_data *data);
 
 /* Utility Functions */
 long				get_time(void);
-long				get_elapsed_time(t_data *data);
 int					ft_atoi(const char *str);
 void				cleanup_simulation(t_data *data);
-int					format_number(char *buffer, long number);
-int					str_copy(char *buffer, const char *str);
 
 #endif

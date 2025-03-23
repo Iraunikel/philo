@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:09:05 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/23 13:50:32 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/18 12:27:29 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,7 @@ int	allocate_resources(t_data *data)
 int	init_philosophers(t_data *data)
 {
 	int	i;
-	pthread_mutexattr_t attr;
-	
-	// Initialize mutex attributes
-	if (pthread_mutexattr_init(&attr))
-		return (0);
-	if (pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_ERRORCHECK))
-	{
-		pthread_mutexattr_destroy(&attr);
-		return (0);
-	}
-	
+
 	i = 0;
 	while (i < data->philo_count)
 	{
@@ -81,55 +71,26 @@ int	init_philosophers(t_data *data)
 		data->philosophers[i].data = data;
 		data->philosophers[i].forks = data->forks;
 		data->philosophers[i].last_meal_time = data->start_time;
-		
-		if (pthread_mutex_init(&data->philosophers[i].meal_lock, &attr))
-		{
-			pthread_mutexattr_destroy(&attr);
-			return (0);
-		}
 		i++;
 	}
-	
-	pthread_mutexattr_destroy(&attr);
 	return (1);
 }
 
 int	init_mutexes(t_data *data)
 {
 	int	i;
-	pthread_mutexattr_t attr;
-	
-	// Initialize mutex attributes for error checking
-	if (pthread_mutexattr_init(&attr))
-		return (0);
-	if (pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_ERRORCHECK))
-	{
-		pthread_mutexattr_destroy(&attr);
-		return (0);
-	}
-	
+
 	i = 0;
 	while (i < data->philo_count)
 	{
-		if (pthread_mutex_init(&data->forks[i], &attr))
-		{
-			pthread_mutexattr_destroy(&attr);
+		if (pthread_mutex_init(&data->forks[i], NULL))
 			return (0);
-		}
 		i++;
 	}
-	if (pthread_mutex_init(&data->print_lock, &attr))
-	{
-		pthread_mutexattr_destroy(&attr);
+	if (pthread_mutex_init(&data->print_lock, NULL))
 		return (0);
-	}
-	if (pthread_mutex_init(&data->death_lock, &attr))
-	{
-		pthread_mutexattr_destroy(&attr);
+	if (pthread_mutex_init(&data->death_lock, NULL))
 		return (0);
-	}
-	
-	pthread_mutexattr_destroy(&attr);
 	return (1);
 }
 

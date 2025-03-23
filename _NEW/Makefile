@@ -6,22 +6,20 @@
 #    By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/18 12:19:31 by iunikel           #+#    #+#              #
-#    Updated: 2025/03/23 12:53:24 by iunikel          ###   ########.fr        #
+#    Updated: 2025/03/18 18:22:30 by iunikel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
-LDFLAGS = 
+CFLAGS = -Wall -Wextra -Werror
 
 SRCS = philo.c \
        init.c \
        monitoring.c \
        routine.c \
-       utils.c \
-       string_utils.c
+       utils.c
 
 OBJS = $(SRCS:.c=.o)
 
