@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:08:54 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/18 12:27:16 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/23 14:13:14 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ static int	philosopher_eat(t_philo *philo)
 {
 	if (!take_forks(philo))
 		return (0);
-	pthread_mutex_lock(&philo->data->death_lock);
+	pthread_mutex_lock(&philo->meal_lock);
 	philo->last_meal_time = get_time();
 	philo->meals_eaten++;
-	pthread_mutex_unlock(&philo->data->death_lock);
+	pthread_mutex_unlock(&philo->meal_lock);
 	print_state(philo, "is eating");
 	precise_sleep(philo->data->time_to_eat);
 	release_forks(philo);
@@ -63,9 +63,9 @@ void	*philosopher_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	pthread_mutex_lock(&philo->data->death_lock);
+	pthread_mutex_lock(&philo->meal_lock);
 	philo->last_meal_time = get_time();
-	pthread_mutex_unlock(&philo->data->death_lock);
+	pthread_mutex_unlock(&philo->meal_lock);
 	if (philo->id % 2)
 		precise_sleep(2);
 	while (!philo->data->simulation_stop)

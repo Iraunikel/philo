@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:51:47 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/18 12:23:38 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/23 14:13:32 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	cleanup_simulation(t_data *data)
 	{
 		pthread_join(data->philosophers[i].thread, NULL);
 		pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->philosophers[i].meal_lock);
 		i++;
 	}
 	pthread_mutex_destroy(&data->print_lock);

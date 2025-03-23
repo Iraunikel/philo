@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:09:05 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/18 12:27:29 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/23 14:13:22 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,12 @@ int	init_philosophers(t_data *data)
 		data->philosophers[i].data = data;
 		data->philosophers[i].forks = data->forks;
 		data->philosophers[i].last_meal_time = data->start_time;
+		if (pthread_mutex_init(&data->philosophers[i].meal_lock, NULL))
+		{
+			while (--i >= 0)
+				pthread_mutex_destroy(&data->philosophers[i].meal_lock);
+			return (0);
+		}
 		i++;
 	}
 	return (1);

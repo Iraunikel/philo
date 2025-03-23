@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:57:07 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/23 14:06:18 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/23 14:15:21 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ void	*death_monitor(void *arg)
 
 void	handle_death(t_data *data, int i)
 {
-	pthread_mutex_lock(&data->print_lock);
+	pthread_mutex_lock(&data->death_lock);
 	data->simulation_stop = 1;
+	pthread_mutex_unlock(&data->death_lock);
+	pthread_mutex_lock(&data->print_lock);
 	printf("%lld %d died\n", get_time() - data->start_time,
 		data->philosophers[i].id);
 	pthread_mutex_unlock(&data->print_lock);
@@ -60,13 +62,13 @@ int	check_philosophers(t_data *data)
 int	check_death(t_philo *philo)
 {
 	long long	current_time;
-	int			is_dead;
+	long long	last_meal;
 
 	pthread_mutex_lock(&philo->data->death_lock);
-	current_time = get_time();
-	is_dead = (current_time - philo->last_meal_time) >= philo->data->time_to_die;
+	last_meal = philo->last_meal_time;
 	pthread_mutex_unlock(&philo->data->death_lock);
-	return (is_dead);
+	current_time = get_time();
+	return ((current_time - last_meal) >= philo->data->time_to_die);
 }
 
 int	check_all_ate_enough(t_data *data)
