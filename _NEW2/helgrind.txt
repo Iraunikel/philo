@@ -1,0 +1,1627 @@
+root@7f84c38589f8:/workspace# valgrind --tool=helgrind --suppressions=/dev/null --default-suppressions=no --history-level=full -v ./philo 1 800 200 200
+==5592== Helgrind, a thread error detector
+==5592== Copyright (C) 2007-2017, and GNU GPL'd, by OpenWorks LLP et al.
+==5592== Using Valgrind-3.22.0-bd4db67b1d-20231031 and LibVEX; rerun with -h for copyright info
+==5592== Command: ./philo 1 800 200 200
+==5592== 
+--5592-- Valgrind options:
+--5592--    --tool=helgrind
+--5592--    --suppressions=/dev/null
+--5592--    --default-suppressions=no
+--5592--    --history-level=full
+--5592--    -v
+--5592-- Contents of /proc/version:
+--5592--   Linux version 6.10.14-linuxkit (root@buildkitsandbox) (gcc (Alpine 13.2.1_git20240309) 13.2.1 20240309, GNU ld (GNU Binutils) 2.42) #1 SMP Mon Feb 24 16:35:16 UTC 2025
+--5592-- 
+--5592-- Arch and hwcaps: ARM64, LittleEndian, v8-fhm-dpbcvadp-sha3-rdm-atomics-fp16-vfp16
+--5592-- Page sizes: currently 4096, max supported 65536
+--5592-- Valgrind library directory: /usr/libexec/valgrind
+--5592-- Reading syms from /workspace/philo
+--5592-- Reading syms from /usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+--5592-- Reading syms from /usr/libexec/valgrind/helgrind-arm64-linux
+--5592--    object doesn't have a dynamic symbol table
+--5592-- Scheduler: using generic scheduler lock implementation.
+--5592-- Reading suppressions file: /dev/null
+==5592== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-5592-by-???-on-7f84c38589f8
+==5592== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-5592-by-???-on-7f84c38589f8
+==5592== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-5592-by-???-on-7f84c38589f8
+==5592== 
+==5592== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==5592== don't want to do, unless you know exactly what you're doing,
+==5592== or are doing some strange experiment):
+==5592==   /usr/bin/vgdb --pid=5592 ...command...
+==5592== 
+==5592== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==5592==   /path/to/gdb ./philo
+==5592== and then give GDB the following command
+==5592==   target remote | /usr/bin/vgdb --pid=5592
+==5592== --pid is optional if only one valgrind process is running
+==5592== 
+--5592-- Reading syms from /usr/libexec/valgrind/vgpreload_core-arm64-linux.so
+--5592-- Reading syms from /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so
+--5592-- Reading syms from /usr/lib/aarch64-linux-gnu/libc.so.6
+--5592--   Considering /usr/lib/debug/.build-id/1d/7249a4f207d07166ff4be43acdc68a01faaa04.debug ..
+--5592--   .. build-id is valid
+==5592== WARNING: new redirection conflicts with existing -- ignoring it
+--5592--     old: 0x0495da50 (sem_post@@GLIBC_2.34) W-> (0000.0) 0x04894eb0 sem_post@*
+--5592--     new: 0x0495da50 (sem_post@@GLIBC_2.34) W-> (0000.0) 0x04894e90 sem_post
+==5592== WARNING: new redirection conflicts with existing -- ignoring it
+--5592--     old: 0x0495e340 (sem_wait@@GLIBC_2.34) W-> (0000.0) 0x04894e70 sem_wait@*
+--5592--     new: 0x0495e340 (sem_wait@@GLIBC_2.34) W-> (0000.0) 0x04894e50 sem_wait
+--5592-- REDIR: 0x496a8d0 (libc.so.6:memchr) redirected to 0x4850710 (_vgnU_ifunc_wrapper)
+--5592-- REDIR: 0x496e120 (libc.so.6:strlen) redirected to 0x4850710 (_vgnU_ifunc_wrapper)
+--5592-- REDIR: 0x496e6c0 (libc.so.6:rindex) redirected to 0x4895460 (rindex)
+--5592-- REDIR: 0x49665b0 (libc.so.6:malloc) redirected to 0x4887360 (malloc)
+--5592-- REDIR: 0x4958280 (libc.so.6:pthread_mutex_init@@GLIBC_2.17) redirected to 0x4894460 (pthread_mutex_init)
+--5592-- REDIR: 0x4955ae0 (libc.so.6:pthread_create@@GLIBC_2.34) redirected to 0x48941d0 (pthread_create@*)
+--5592-- REDIR: 0x49679d0 (libc.so.6:calloc) redirected to 0x488e190 (calloc)
+--5592--   Considering /usr/lib/debug/.build-id/8c/090caa0683408bed144e81074485c3d2abfdb0.debug ..
+--5592--   .. build-id is valid
+--5592-- REDIR: 0x4958b70 (libc.so.6:pthread_mutex_lock@@GLIBC_2.17) redirected to 0x4894630 (pthread_mutex_lock)
+--5592-- REDIR: 0x495a6f4 (libc.so.6:pthread_mutex_unlock@@GLIBC_2.17) redirected to 0x48946b0 (pthread_mutex_unlock)
+--5592-- REDIR: 0x496c2c0 (libc.so.6:strchrnul) redirected to 0x4899a70 (strchrnul)
+--5592-- REDIR: 0x4971a80 (libc.so.6:__GI_memcpy) redirected to 0x4897600 (__GI_memcpy)
+--5592-- REDIR: 0x4973140 (libc.so.6:__GI_strlen) redirected to 0x4895a90 (__GI_strlen)
+16 1 has taken a fork
+==5592== ---Thread-Announcement------------------------------------------
+==5592== 
+==5592== Thread #3 was created
+==5592==    at 0x49BB7B7: clone (clone.S:62)
+==5592==    by 0x49554C7: create_thread (pthread_create.c:297)
+==5592==    by 0x4955F97: pthread_create@@GLIBC_2.34 (pthread_create.c:836)
+==5592==    by 0x48929BB: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x108E5B: create_threads (philo.c:35)
+==5592==    by 0x108F8B: main (philo.c:69)
+==5592== 
+==5592== ---Thread-Announcement------------------------------------------
+==5592== 
+==5592== Thread #2 was created
+==5592==    at 0x49BB7B7: clone (clone.S:62)
+==5592==    by 0x49554C7: create_thread (pthread_create.c:297)
+==5592==    by 0x4955F97: pthread_create@@GLIBC_2.34 (pthread_create.c:836)
+==5592==    by 0x48929BB: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x108DDB: create_threads (philo.c:22)
+==5592==    by 0x108F8B: main (philo.c:69)
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592== Possible data race during read of size 4 at 0x4A802BC by thread #3
+==5592== Locks held: none
+==5592==    at 0x49BC710: __set_vma_name (setvmaname.c:35)
+==5592==    by 0x49556C7: name_stack_maps (allocatestack.c:603)
+==5592==    by 0x49556C7: start_thread (pthread_create.c:373)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: none
+==5592==    at 0x49BC79C: __set_vma_name (setvmaname.c:47)
+==5592==    by 0x49556C7: name_stack_maps (allocatestack.c:603)
+==5592==    by 0x49556C7: start_thread (pthread_create.c:373)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a802bc is 0 bytes inside data symbol "prctl_supported.0"
+==5592== 
+--5592-- REDIR: 0x4957190 (libc.so.6:pthread_join@@GLIBC_2.34) redirected to 0x48941f0 (pthread_join)
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during read of size 4 at 0x1FFF0003A0 by thread #3
+==5592== Locks held: none
+==5592==    at 0x4958D50: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:174)
+==5592==    by 0x488F8EB: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096BB: is_simulation_stopped (monitoring.c:26)
+==5592==    by 0x109703: death_monitor (monitoring.c:45)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a0 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during read of size 4 at 0x1FFF0003A4 by thread #3
+==5592== Locks held: none
+==5592==    at 0x4958BD4: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:184)
+==5592==    by 0x488F8EB: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096BB: is_simulation_stopped (monitoring.c:26)
+==5592==    by 0x109703: death_monitor (monitoring.c:45)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a4 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during write of size 4 at 0x1FFF0003A0 by thread #3
+==5592== Locks held: none
+==5592==    at 0x4958BE0: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:184)
+==5592==    by 0x488F8EB: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096BB: is_simulation_stopped (monitoring.c:26)
+==5592==    by 0x109703: death_monitor (monitoring.c:45)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a0 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during read of size 4 at 0x1FFF0003A0 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A6B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:99)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x109703: death_monitor (monitoring.c:45)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a0 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during write of size 4 at 0x1FFF0003A0 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x109703: death_monitor (monitoring.c:45)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a0 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during read of size 4 at 0x1FFF0003A4 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A60C: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x109703: death_monitor (monitoring.c:45)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a4 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during write of size 4 at 0x1FFF0003A4 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x109703: death_monitor (monitoring.c:45)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a4 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during read of size 4 at 0x1FFF0003A0 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A6B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:99)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x1097DB: check_philosophers (monitoring.c:78)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a0 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during write of size 4 at 0x1FFF0003A0 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x1097DB: check_philosophers (monitoring.c:78)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a0 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during read of size 4 at 0x1FFF0003A4 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A60C: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x1097DB: check_philosophers (monitoring.c:78)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a4 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during write of size 4 at 0x1FFF0003A4 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x1097DB: check_philosophers (monitoring.c:78)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a4 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== ---Thread-Announcement------------------------------------------
+==5592== 
+==5592== Thread #1 is the program's root thread
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during read of size 4 at 0x4A8E080 by thread #3
+==5592== Locks held: none
+==5592==    at 0x4958D50: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:174)
+==5592==    by 0x488F8EB: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1098A7: check_death (monitoring.c:105)
+==5592==    by 0x10981F: check_philosophers (monitoring.c:84)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 1, at address 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109DF7: handle_one_philo (routine.c:55)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a8e080 is 64 bytes inside a block of size 104 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10917B: allocate_resources (init.c:44)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during read of size 4 at 0x4A8E084 by thread #3
+==5592== Locks held: none
+==5592==    at 0x4958BD4: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:184)
+==5592==    by 0x488F8EB: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1098A7: check_death (monitoring.c:105)
+==5592==    by 0x10981F: check_philosophers (monitoring.c:84)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 1, at address 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109DF7: handle_one_philo (routine.c:55)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a8e084 is 68 bytes inside a block of size 104 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10917B: allocate_resources (init.c:44)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during write of size 4 at 0x4A8E080 by thread #3
+==5592== Locks held: none
+==5592==    at 0x4958BE0: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:184)
+==5592==    by 0x488F8EB: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1098A7: check_death (monitoring.c:105)
+==5592==    by 0x10981F: check_philosophers (monitoring.c:84)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 1, at address 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109DF7: handle_one_philo (routine.c:55)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a8e080 is 64 bytes inside a block of size 104 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10917B: allocate_resources (init.c:44)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during read of size 4 at 0x4A8E080 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A6B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:99)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1098BF: check_death (monitoring.c:107)
+==5592==    by 0x10981F: check_philosophers (monitoring.c:84)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 1, at address 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109DF7: handle_one_philo (routine.c:55)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a8e080 is 64 bytes inside a block of size 104 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10917B: allocate_resources (init.c:44)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during write of size 4 at 0x4A8E080 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1098BF: check_death (monitoring.c:107)
+==5592==    by 0x10981F: check_philosophers (monitoring.c:84)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 1, at address 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109DF7: handle_one_philo (routine.c:55)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a8e080 is 64 bytes inside a block of size 104 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10917B: allocate_resources (init.c:44)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during read of size 4 at 0x4A8E084 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A60C: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1098BF: check_death (monitoring.c:107)
+==5592==    by 0x10981F: check_philosophers (monitoring.c:84)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 1, at address 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109DF7: handle_one_philo (routine.c:55)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a8e084 is 68 bytes inside a block of size 104 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10917B: allocate_resources (init.c:44)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 0 bytes inside a block of size 48 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1091CB: allocate_resources (init.c:50)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== Possible data race during write of size 4 at 0x4A8E084 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1098BF: check_death (monitoring.c:107)
+==5592==    by 0x10981F: check_philosophers (monitoring.c:84)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 1, at address 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109DF7: handle_one_philo (routine.c:55)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a8e084 is 68 bytes inside a block of size 104 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10917B: allocate_resources (init.c:44)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+819 1 died
+--5592-- REDIR: 0x4966eb0 (libc.so.6:free) redirected to 0x488a3c0 (free)
+--5592-- REDIR: 0x4958200 (libc.so.6:pthread_mutex_destroy@@GLIBC_2.17) redirected to 0x4894610 (pthread_mutex_destroy)
+==5592== 
+==5592== ERROR SUMMARY: 3069 errors from 19 contexts (suppressed: 0 from 0)
+==5592== 
+==5592== 1 errors in context 1 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during write of size 4 at 0x1FFF0003A4 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x1097DB: check_philosophers (monitoring.c:78)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a4 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== 
+==5592== 1 errors in context 2 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during read of size 4 at 0x1FFF0003A4 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A60C: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x1097DB: check_philosophers (monitoring.c:78)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a4 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== 
+==5592== 1 errors in context 3 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during write of size 4 at 0x1FFF0003A0 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x1097DB: check_philosophers (monitoring.c:78)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a0 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== 
+==5592== 1 errors in context 4 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during read of size 4 at 0x1FFF0003A0 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A6B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:99)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x1097DB: check_philosophers (monitoring.c:78)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a0 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== 
+==5592== 1 errors in context 5 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during write of size 4 at 0x1FFF0003A4 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x109703: death_monitor (monitoring.c:45)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a4 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== 
+==5592== 1 errors in context 6 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during read of size 4 at 0x1FFF0003A4 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A60C: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x109703: death_monitor (monitoring.c:45)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a4 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== 
+==5592== 1 errors in context 7 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during write of size 4 at 0x1FFF0003A0 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x109703: death_monitor (monitoring.c:45)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a0 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== 
+==5592== 1 errors in context 8 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during read of size 4 at 0x1FFF0003A0 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A6B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:99)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096D3: is_simulation_stopped (monitoring.c:28)
+==5592==    by 0x109703: death_monitor (monitoring.c:45)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a0 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== 
+==5592== 1 errors in context 9 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during read of size 4 at 0x1FFF0003A4 by thread #3
+==5592== Locks held: none
+==5592==    at 0x4958BD4: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:184)
+==5592==    by 0x488F8EB: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096BB: is_simulation_stopped (monitoring.c:26)
+==5592==    by 0x109703: death_monitor (monitoring.c:45)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a4 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== 
+==5592== 1 errors in context 10 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during read of size 4 at 0x1FFF0003A0 by thread #3
+==5592== Locks held: none
+==5592==    at 0x4958D50: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:174)
+==5592==    by 0x488F8EB: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096BB: is_simulation_stopped (monitoring.c:26)
+==5592==    by 0x109703: death_monitor (monitoring.c:45)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a0 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== 
+==5592== 1 errors in context 11 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592== Possible data race during read of size 4 at 0x4A802BC by thread #3
+==5592== Locks held: none
+==5592==    at 0x49BC710: __set_vma_name (setvmaname.c:35)
+==5592==    by 0x49556C7: name_stack_maps (allocatestack.c:603)
+==5592==    by 0x49556C7: start_thread (pthread_create.c:373)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: none
+==5592==    at 0x49BC79C: __set_vma_name (setvmaname.c:47)
+==5592==    by 0x49556C7: name_stack_maps (allocatestack.c:603)
+==5592==    by 0x49556C7: start_thread (pthread_create.c:373)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a802bc is 0 bytes inside data symbol "prctl_supported.0"
+==5592== 
+==5592== 
+==5592== 2 errors in context 12 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x128018 was first observed
+==5592==    at 0x488F940: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A5E3: print_state (utils.c:71)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x128018 is 0 bytes inside data symbol "output_lock.0"
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during write of size 4 at 0x1FFF0003A0 by thread #3
+==5592== Locks held: none
+==5592==    at 0x4958BE0: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:184)
+==5592==    by 0x488F8EB: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1096BB: is_simulation_stopped (monitoring.c:26)
+==5592==    by 0x109703: death_monitor (monitoring.c:45)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 2, at addresses 0x128018 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10A56F: get_elapsed_time (utils.c:50)
+==5592==    by 0x10A5EF: print_state (utils.c:74)
+==5592==    by 0x109DCF: handle_one_philo (routine.c:50)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==  Address 0x1fff0003a0 is on thread #1's stack
+==5592==  in frame #3, created by main (philo.c:49)
+==5592== 
+==5592== 
+==5592== 382 errors in context 13 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during write of size 4 at 0x4A8E084 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1098BF: check_death (monitoring.c:107)
+==5592==    by 0x10981F: check_philosophers (monitoring.c:84)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 1, at address 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109DF7: handle_one_philo (routine.c:55)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a8e084 is 68 bytes inside a block of size 104 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10917B: allocate_resources (init.c:44)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== 
+==5592== 382 errors in context 14 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during read of size 4 at 0x4A8E084 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A60C: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1098BF: check_death (monitoring.c:107)
+==5592==    by 0x10981F: check_philosophers (monitoring.c:84)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 1, at address 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109DF7: handle_one_philo (routine.c:55)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a8e084 is 68 bytes inside a block of size 104 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10917B: allocate_resources (init.c:44)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== 
+==5592== 382 errors in context 15 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during write of size 4 at 0x4A8E080 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1098BF: check_death (monitoring.c:107)
+==5592==    by 0x10981F: check_philosophers (monitoring.c:84)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 1, at address 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109DF7: handle_one_philo (routine.c:55)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a8e080 is 64 bytes inside a block of size 104 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10917B: allocate_resources (init.c:44)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== 
+==5592== 382 errors in context 16 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during read of size 4 at 0x4A8E080 by thread #3
+==5592== Locks held: none
+==5592==    at 0x495A6B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:99)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1098BF: check_death (monitoring.c:107)
+==5592==    by 0x10981F: check_philosophers (monitoring.c:84)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 1, at address 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109DF7: handle_one_philo (routine.c:55)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a8e080 is 64 bytes inside a block of size 104 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10917B: allocate_resources (init.c:44)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== 
+==5592== 382 errors in context 17 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during read of size 4 at 0x4A8E084 by thread #3
+==5592== Locks held: none
+==5592==    at 0x4958BD4: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:184)
+==5592==    by 0x488F8EB: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1098A7: check_death (monitoring.c:105)
+==5592==    by 0x10981F: check_philosophers (monitoring.c:84)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 1, at address 0x4A8E0F0
+==5592==    at 0x495A614: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:65)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109DF7: handle_one_philo (routine.c:55)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a8e084 is 68 bytes inside a block of size 104 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10917B: allocate_resources (init.c:44)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== 
+==5592== 382 errors in context 18 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during read of size 4 at 0x4A8E080 by thread #3
+==5592== Locks held: none
+==5592==    at 0x4958D50: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:174)
+==5592==    by 0x488F8EB: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1098A7: check_death (monitoring.c:105)
+==5592==    by 0x10981F: check_philosophers (monitoring.c:84)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 1, at address 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109DF7: handle_one_philo (routine.c:55)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a8e080 is 64 bytes inside a block of size 104 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10917B: allocate_resources (init.c:44)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== 
+==5592== 764 errors in context 19 of 19:
+==5592== ----------------------------------------------------------------
+==5592== 
+==5592==  Lock at 0x4A8E0F0 was first observed
+==5592==    at 0x4894560: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109527: init_mutexes (init.c:114)
+==5592==    by 0x108F43: main (philo.c:62)
+==5592==  Address 0x4a8e0f0 is 176 bytes inside an unallocated block of size 224 in arena "client"
+==5592== 
+==5592== Possible data race during write of size 4 at 0x4A8E080 by thread #3
+==5592== Locks held: none
+==5592==    at 0x4958BE0: pthread_mutex_lock@@GLIBC_2.17 (pthread_mutex_lock.c:184)
+==5592==    by 0x488F8EB: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x1098A7: check_death (monitoring.c:105)
+==5592==    by 0x10981F: check_philosophers (monitoring.c:84)
+==5592==    by 0x109713: death_monitor (monitoring.c:49)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592== 
+==5592== This conflicts with a previous write of size 4 by thread #2
+==5592== Locks held: 1, at address 0x4A8E0F0
+==5592==    at 0x495A5B0: __pthread_mutex_unlock_usercnt (pthread_mutex_unlock.c:62)
+==5592==    by 0x489005B: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x109DF7: handle_one_philo (routine.c:55)
+==5592==    by 0x10A2DB: philosopher_routine (routine.c:210)
+==5592==    by 0x4892B93: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x495595B: start_thread (pthread_create.c:447)
+==5592==    by 0x49BB7DB: thread_start (clone.S:79)
+==5592==  Address 0x4a8e080 is 64 bytes inside a block of size 104 alloc'd
+==5592==    at 0x48873E0: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-arm64-linux.so)
+==5592==    by 0x10917B: allocate_resources (init.c:44)
+==5592==    by 0x108F2B: main (philo.c:60)
+==5592==  Block was alloc'd by thread #1
+==5592== 
+==5592== ERROR SUMMARY: 3069 errors from 19 contexts (suppressed: 0 from 0)
+root@7f84c38589f8:/workspace# 
