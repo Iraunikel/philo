@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:09:05 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/23 14:13:22 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/23 19:05:33 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,16 @@ int	init_philosophers(t_data *data)
 	while (i < data->philo_count)
 	{
 		data->philosophers[i].id = i + 1;
-		data->philosophers[i].left_fork = i;
-		data->philosophers[i].right_fork = (i + 1) % data->philo_count;
+		if (i % 2 == 0)
+		{
+			data->philosophers[i].left_fork = i;
+			data->philosophers[i].right_fork = (i + 1) % data->philo_count;
+		}
+		else
+		{
+			data->philosophers[i].left_fork = (i + 1) % data->philo_count;
+			data->philosophers[i].right_fork = i;
+		}
 		data->philosophers[i].meals_eaten = 0;
 		data->philosophers[i].data = data;
 		data->philosophers[i].forks = data->forks;

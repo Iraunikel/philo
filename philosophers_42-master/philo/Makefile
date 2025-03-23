@@ -3,43 +3,55 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+         #
+#    By: jergashe <jergashe@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/03/18 12:19:31 by iunikel           #+#    #+#              #
-#    Updated: 2025/03/23 15:11:40 by iunikel          ###   ########.fr        #
+#    Created: 2023/02/04 08:22:06 by jergashe          #+#    #+#              #
+#    Updated: 2023/03/02 11:46:17 by jergashe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
-
-CC = gcc
+CC = cc
+RM = rm -rf
 CFLAGS = -Wall -Wextra -Werror -g
 
-SRCS = philo.c \
-       init.c \
-       monitoring.c \
-       routine.c \
-       utils.c
+SRC_DIR = src/
+OBJ_DIR = objects/
 
-OBJS = $(SRCS:.c=.o)
+SRC =	philo \
+    	parse \
+    	init_data \
+    	routine \
+    	time \
+		utils \
+    	monitor \
+       	eat_1 \
+    	eat_2 \
+    	sleep \
+    	think \
+    	getters_1 \
+    	getters_2 \
+    	setters
 
-HEADERS = philo.h
+SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC)))
 
+OBJS = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC)))
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
-%.o: %.c $(HEADERS)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c 
+	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-clean:		
-	rm -f $(OBJS)
+clean:
+	$(RM) $(OBJ_DIR)
 
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME) 
 
 re: fclean all
-
+#-g #-fsanitize=thread
 .PHONY: all clean fclean re

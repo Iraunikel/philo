@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:03:39 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/18 12:23:20 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/23 19:05:22 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ int	main(int argc, char **argv)
 	if (!create_threads(&data, &monitor))
 		return (1);
 	pthread_join(monitor, NULL);
+	pthread_mutex_lock(&data.death_lock);
 	data.simulation_stop = 1;
+	pthread_mutex_unlock(&data.death_lock);
 	cleanup_simulation(&data);
 	return (0);
 }

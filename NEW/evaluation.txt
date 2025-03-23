@@ -1,0 +1,659 @@
+6/13/2021 Intra Projects Philosophers Edit
+https://projects.intra.42.fr/scale_teams/3227178/edit 1/4
+Rememb
+er th
+a
+t the qu
+ality of the defenses, hence the qu
+ality of the of the school on the la
+b
+or m
+arket depends on you. The
+remote defences during the Covid crisis allows more flexi
+b
+ility so you c
+a
+n progress into your curriculum, b
+ut
+also
+b
+rings
+more risks of che
+a
+t, injustice, la
+ziness, th
+a
+t will h
+arm everyone's skills development. We do count on your m
+a
+turity
+a
+nd
+wisdom during these remote defenses for the
+b
+enefits of the entire community.
+SCALE FOR PROJECT
+PHILOSOPHERS
+(/PROJECTS/42CURSUS-PHILOSOPHERS)
+You should evaluate 1 student in this team
+Git repository
+Introduction
+Ple
+ase respect the following rules:
+- Rem
+ain polite, courteous, respectful a
+nd constructive
+throughout the ev
+alu
+a
+tion process. The well-
+b
+eing of the community
+depends on it.
+- Identify with the person (or the group) ev
+alu
+a
+ted the eventu
+al
+dysfunctions of the work. T
+a
+ke the time to discuss
+a
+nd de
+b
+a
+te the pro
+blems you h
+a
+ve identified.
+- You must consider th
+a
+t there might
+b
+e some difference in how your
+peers might h
+a
+ve understood the project's instructions a
+nd the
+scope of its function
+alities. Alw
+a
+ys keep
+a
+n open mind
+a
+nd gra
+de
+him/her as honestly
+as possi
+ble. The ped
+a
+gogy is v
+alid only
+a
+nd
+only if peer-ev
+alu
+a
+tion is conducted seriously.
+Guidelines
+- Only gra
+de the work th
+a
+t is in the student or group's
+GiT repository.
+- Dou
+ble-check th
+a
+t the GiT repository
+b
+elongs to the student
+or the group. Ensure th
+a
+t the work is for the relev
+a
+nt project
+
+
+git@vogsphere.msk.21-school.ru:vogsphere/intra-uuid-e82a928
+(https://profile.intra.42.fr)
+ fl (https://profile.intra.42.fr/searches) wstygg
+6/13/2021 Intra Projects Philosophers Edit
+https://projects.intra.42.fr/scale_teams/3227178/edit 2/4
+a
+nd
+also check th
+a
+t "git clone" is used in
+a
+n empty folder.
+- Check c
+arefully th
+a
+t no m
+alicious aliases were used to fool you
+a
+nd m
+a
+ke you ev
+alu
+a
+te something other th
+a
+n the content of the
+official repository.
+- To
+a
+void
+a
+ny surprises, c
+arefully check th
+a
+t
+b
+oth the ev
+alu
+a
+ting
+a
+nd the ev
+alu
+a
+ted students h
+a
+ve reviewed the possi
+ble scripts used
+to f
+a
+cilit
+a
+te the gra
+ding.
+- If the ev
+alu
+a
+ting student h
+as not completed th
+a
+t p
+articular
+project yet, it is m
+a
+nd
+a
+tory for this student to re
+a
+d the
+entire su
+bject
+b
+efore st
+arting the defense.
+- Use the fl
+a
+gs a
+v
+aila
+ble on this sc
+ale to sign
+al a
+n empty repository,
+non-functioning progra
+m, norm error, che
+a
+ting etc. In these c
+ases,
+the gra
+ding is over a
+nd the fin
+al gra
+de is 0 (or -42 in c
+ase of
+che
+a
+ting)
+. However, except for che
+a
+ting, you
+are
+encoura
+ged to continue to discuss your work (even if you h
+a
+ve not
+finished it) to identify
+a
+ny issues th
+a
+t m
+a
+y h
+a
+ve c
+a
+used
+this f
+ailure
+a
+nd
+a
+void repe
+a
+ting the sa
+me mist
+a
+ke in the future.
+- Rememb
+er th
+a
+t for the dura
+tion of the defense, no segf
+a
+ult,
+no other unexpected, prem
+a
+ture, uncontrolled or unexpected
+termin
+a
+tion of the progra
+m, else the fin
+al gra
+de is 0. Use the
+a
+ppropria
+te fl
+a
+g.
+You should never h
+a
+ve to edit
+a
+ny file except the configura
+tion file if it exists.
+If you w
+a
+nt to edit
+a
+file, t
+a
+ke the time to explicit the re
+asons with the
+ev
+alu
+a
+ted student
+a
+nd m
+a
+ke sure
+b
+oth of you
+are ok
+a
+y with this.
+- You must
+also verify the
+a
+b
+sence of memory le
+a
+ks. Any memory
+alloc
+a
+ted on the he
+a
+p must
+b
+e properly freed b
+efore the end of execution.
+You
+are
+allowed to use
+a
+ny of the different tools a
+v
+aila
+ble on the computer, such
+as
+le
+a
+ks, v
+algrind, or e_fence. In c
+ase of memory le
+a
+ks, tick the
+a
+ppropria
+te fl
+a
+g.
+Att
+a
+chments
+
+su
+bject.pdf (https://cdn.intra.42.fr/pdf/pdf/24616/en.su
+bject.pdf)
+M
+a
+nd
+a
+tory P
+art
+Error H
+a
+ndling
+This project is to
+b
+e coded in C, following the Norm.
+Any crash, undefined b
+eh
+a
+vior, memory le
+a
+k, or norm error me
+a
+ns 0 to the project.
+On some slow h
+ardw
+are, the project might not work properly.
+6/13/2021 Intra Projects Philosophers Edit
+https://projects.intra.42.fr/scale_teams/3227178/edit 3/4
+If some tests don't work on your m
+a
+chine try to discuss it honestly
+b
+efore counting it
+as f
+alse.
+Philo code
+- Check the code of Philo for the following things a
+nd
+ask for a
+n expla
+n
+a
+tion.
+- Check if there is one thre
+a
+d per philosopher.
+- Check there's only one fork per philosopher.
+- Check if there is a
+mutex per fork
+a
+nd th
+a
+t it's used to check the fork v
+alue
+a
+nd/or ch
+a
+nge it.
+- Check the output should never produce
+a scra
+mbled view.
+- Check how the de
+a
+th of
+a
+philosopher is checked
+a
+nd if there is a
+mutex to protect th
+a
+t
+a
+philosopher dies a
+nd st
+art
+e
+a
+ting
+a
+t the sa
+me time.
+Philo test
+- Do not test with more th
+a
+n 200 philosophers
+- Do not test with time_to_die or time_to_ea
+t or time_to_sleep under 60 ms
+- Test with 1 800 200 200
+, the philosopher should not e
+a
+t
+a
+nd should die!
+- Test with 5 800 200 200
+, no one should die!
+- Test with 5 800 200 200 7, no one should die
+a
+nd the simula
+tion should stop when
+all the philosopher h
+as e
+a
+ten
+a
+t
+le
+ast 7 times e
+a
+ch.
+- Test with 4 410 200 200
+, no one should die!
+- Test with 4 3 10 200 100
+,
+a
+philosopher should die!
+- Test with 2 philosophers a
+nd check the different times (
+a
+de
+a
+th dela
+yed b
+y more th
+a
+n 10 ms is un
+a
+ccept
+a
+ble)
+.
+- Test with your v
+alues to check
+all the rules. Check if
+a
+philosopher dies a
+t the right time if they don't ste
+al forks, etc.
+Bonus P
+art
+Philo_bonus code
+- Check the code of philo_bonus for the following things a
+nd
+ask for a
+n expla
+n
+a
+tion.
+- Check if there will b
+e one process per philosopher a
+nd th
+a
+t the first process w
+aits for all of them.
+- Check if there is a single sem
+a
+phore th
+a
+t represents the numb
+er of forks.
+- Check if the output is protected
+a
+g
+ainst multiple
+a
+ccess. To
+a
+void
+a scra
+mbled view.
+- Check how the de
+a
+th of
+a
+philosopher is checked
+a
+nd if there is a sem
+a
+phore to protect th
+a
+t
+a
+philosopher dies a
+nd
+st
+arts e
+a
+ting
+a
+t the sa
+me time.
+
+Yes
+
+No
+
+Yes
+
+No
+
+Yes
+
+No
+
+Yes
+
+No
+6/13/2021 Intra Projects Philosophers Edit
+https://projects.intra.42.fr/scale_teams/3227178/edit 4/4
+Finish ev
+alu
+a
+tion
+Philo_bonus test
+- Do not test with more th
+a
+n 200 philosophers
+- Do not test with time_to_die or time_to_ea
+t or time_to_sleep under 60 ms
+- Test with 5 800 200 200
+, no one should die!
+- Test with 5 800 200 200 7, no one should die
+a
+nd the simula
+tion should stop when
+all the philosopher h
+as e
+a
+ten
+a
+t
+le
+ast 7 times e
+a
+ch.
+- Test with 4 410 200 200
+, no one should die!
+- Test with 4 3 10 200 100
+,
+a
+philosopher should die!
+- Test with 2 philosophers a
+nd check the different times (
+a
+de
+a
+th dela
+yed b
+y more th
+a
+n 10 ms is un
+a
+ccept
+a
+ble)
+.
+- Test with your v
+alues to check
+all the rules. Check if
+a
+philosopher dies a
+t the right time if they don't ste
+al forks, etc.
+
+Yes
+
+No
+R
+a
+tings
+Don’t forget to check the fl
+a
+g corresponding to the defense
+
+Ok 
+
+Outst
+a
+nding project
+
+Empty work
+
+No
+a
+uthor file W
+Inv
+alid compila
+tion 
+
+Norme 
+
+Che
+a
+t d
+Crash
+
+Le
+a
+ks l
+For
+b
+idden function
+Conclusion
+Le
+a
+ve
+a
+comment on this ev
+alu
+a
+tion
+Priv
+a
+cy policy (https://signin.intra.42.fr/leg
+al/terms/5)
+Leg
+al notices (https://signin.intra.42.fr/leg
+al/terms/3)
+Declara
+tion on the use of cookies (https://signin.intra.42.fr/leg
+al/terms/2)
+Rules of procedure (https://signin.intra.42.fr/leg
+al/terms/4)
+Terms of use for video surveilla
+nce (https://signin.intra.42.fr/leg
+al/terms/1)
+General term of use of the site (https://signin.intra.42.fr/leg
+al/terms/6)
