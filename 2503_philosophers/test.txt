@@ -1,0 +1,180 @@
+ira@Iras-Air 2503_philosophers % ./philo 5 800 200 200 7
+2 1 is thinking
+2 2 is thinking
+2 3 is thinking
+2 4 is thinking
+2 5 is thinking
+3 2 has taken a fork
+3 2 has taken a fork
+3 3 has taken a fork
+3 5 has taken a fork
+3 5 has taken a fork
+3 5 is eating
+3 2 is eating
+203 5 is sleeping
+203 2 is sleeping
+203 3 has taken a fork
+203 3 is eating
+203 1 has taken a fork
+203 1 has taken a fork
+203 1 is eating
+403 1 is sleeping
+403 3 is sleeping
+403 5 is thinking
+403 4 has taken a fork
+403 4 has taken a fork
+403 4 is eating
+403 2 is thinking
+403 5 has taken a fork
+403 2 has taken a fork
+403 2 has taken a fork
+403 2 is eating
+603 2 is sleeping
+603 3 is thinking
+603 1 is thinking
+603 5 has taken a fork
+603 5 is eating
+603 4 is sleeping
+603 3 has taken a fork
+603 3 has taken a fork
+603 3 is eating
+603 1 has taken a fork
+803 4 is thinking
+803 1 has taken a fork
+803 1 is eating
+803 3 is sleeping
+803 2 is thinking
+803 5 is sleeping
+803 4 has taken a fork
+803 4 has taken a fork
+803 4 is eating
+1003 3 is thinking
+1003 5 is thinking
+1003 4 is sleeping
+1003 1 is sleeping
+1003 2 has taken a fork
+1003 2 has taken a fork
+1003 2 is eating
+1003 3 has taken a fork
+1003 5 has taken a fork
+1003 5 has taken a fork
+1003 5 is eating
+1203 1 is thinking
+1203 4 is thinking
+1203 5 is sleeping
+1203 2 is sleeping
+1203 3 has taken a fork
+1203 3 is eating
+1203 1 has taken a fork
+1203 1 has taken a fork
+1203 1 is eating
+1403 2 is thinking
+1403 5 is thinking
+1403 1 is sleeping
+1403 3 is sleeping
+1403 4 has taken a fork
+1403 4 has taken a fork
+1403 4 is eating
+1403 2 has taken a fork
+1403 2 has taken a fork
+1403 2 is eating
+1403 5 has taken a fork
+1603 1 is thinking
+1603 3 is thinking
+1603 2 is sleeping
+1603 4 is sleeping
+1603 5 has taken a fork
+1603 5 is eating
+1603 1 has taken a fork
+1603 3 has taken a fork
+1603 3 has taken a fork
+1603 3 is eating
+1803 4 is thinking
+1803 3 is sleeping
+1803 2 is thinking
+1803 5 is sleeping
+1803 1 has taken a fork
+1803 1 is eating
+1803 4 has taken a fork
+1803 4 has taken a fork
+1803 4 is eating
+2003 3 is thinking
+2003 4 is sleeping
+2003 5 is thinking
+2003 1 is sleeping
+2003 2 has taken a fork
+2003 2 has taken a fork
+2003 2 is eating
+2003 3 has taken a fork
+2003 5 has taken a fork
+2003 5 has taken a fork
+2003 5 is eating
+2203 1 is thinking
+2203 4 is thinking
+2203 5 is sleeping
+2203 2 is sleeping
+2203 3 has taken a fork
+2203 3 is eating
+2203 1 has taken a fork
+2203 1 has taken a fork
+2203 1 is eating
+2403 2 is thinking
+2403 5 is thinking
+2403 1 is sleeping
+2403 3 is sleeping
+2403 4 has taken a fork
+2403 4 has taken a fork
+2403 4 is eating
+2403 5 has taken a fork
+2403 2 has taken a fork
+2403 2 has taken a fork
+2403 2 is eating
+2603 1 is thinking
+2603 3 is thinking
+2603 2 is sleeping
+2603 4 is sleeping
+2603 5 has taken a fork
+2603 5 is eating
+2603 1 has taken a fork
+2603 3 has taken a fork
+2603 3 has taken a fork
+2603 3 is eating
+2803 3 is sleeping
+2803 2 is thinking
+2803 5 is sleeping
+2803 4 is thinking
+2803 1 has taken a fork
+2803 1 is eating
+2803 4 has taken a fork
+2803 4 has taken a fork
+2803 4 is eating
+3003 4 is sleeping
+3003 3 is thinking
+3003 5 is thinking
+3003 1 is sleeping
+3003 2 has taken a fork
+3003 2 has taken a fork
+3003 2 is eating
+3003 3 has taken a fork
+3003 5 has taken a fork
+3003 5 has taken a fork
+3003 5 is eating
+3203 4 is thinking
+3203 1 is thinking
+3203 5 is sleeping
+3203 2 is sleeping
+3203 3 has taken a fork
+3203 3 is eating
+3203 1 has taken a fork
+3203 1 has taken a fork
+3203 1 is eating
+3403 5 is thinking
+3403 1 is sleeping
+3403 2 is thinking
+3403 3 is sleeping
+3403 4 has taken a fork
+3403 4 has taken a fork
+3403 4 is eating
+3603 3 is thinking
+3603 1 is thinking
+3603 4 is sleeping

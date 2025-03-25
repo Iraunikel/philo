@@ -1,0 +1,41 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     philo_tsan
+relocations:
+  - { offset: 0x26, size: 0x8, addend: 0x0, symName: _parse_args, symObjAddr: 0x0, symBinAddr: 0x100000D50, symSize: 0x2E4 }
+  - { offset: 0x41, size: 0x8, addend: 0x0, symName: _parse_args, symObjAddr: 0x0, symBinAddr: 0x100000D50, symSize: 0x2E4 }
+  - { offset: 0x85, size: 0x8, addend: 0x0, symName: _init_simulation, symObjAddr: 0x2E4, symBinAddr: 0x100001034, symSize: 0xB8 }
+  - { offset: 0xAD, size: 0x8, addend: 0x0, symName: _create_threads, symObjAddr: 0x39C, symBinAddr: 0x1000010EC, symSize: 0xA8 }
+  - { offset: 0xD5, size: 0x8, addend: 0x0, symName: _wait_and_cleanup, symObjAddr: 0x444, symBinAddr: 0x100001194, symSize: 0x144 }
+  - { offset: 0x10B, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x588, symBinAddr: 0x1000012D8, symSize: 0x170 }
+  - { offset: 0x3B0, size: 0x8, addend: 0x0, symName: _init_data, symObjAddr: 0x0, symBinAddr: 0x10000145C, symSize: 0xA8 }
+  - { offset: 0x3BD, size: 0x8, addend: 0x0, symName: _init_data, symObjAddr: 0x0, symBinAddr: 0x10000145C, symSize: 0xA8 }
+  - { offset: 0x3E5, size: 0x8, addend: 0x0, symName: _init_mutexes, symObjAddr: 0xA8, symBinAddr: 0x100001504, symSize: 0x1D0 }
+  - { offset: 0x41B, size: 0x8, addend: 0x0, symName: _init_philosophers, symObjAddr: 0x278, symBinAddr: 0x1000016D4, symSize: 0x334 }
+  - { offset: 0x451, size: 0x8, addend: 0x0, symName: _create_philosopher_threads, symObjAddr: 0x5AC, symBinAddr: 0x100001A08, symSize: 0x134 }
+  - { offset: 0x487, size: 0x8, addend: 0x0, symName: _cleanup_simulation, symObjAddr: 0x6E0, symBinAddr: 0x100001B3C, symSize: 0x1D4 }
+  - { offset: 0x720, size: 0x8, addend: 0x0, symName: _precise_sleep, symObjAddr: 0x0, symBinAddr: 0x100001D24, symSize: 0xB0 }
+  - { offset: 0x97A, size: 0x8, addend: 0x0, symName: _precise_sleep, symObjAddr: 0x0, symBinAddr: 0x100001D24, symSize: 0xB0 }
+  - { offset: 0x9C8, size: 0x8, addend: 0x0, symName: _philosopher_routine, symObjAddr: 0xB0, symBinAddr: 0x100001DD4, symSize: 0x124 }
+  - { offset: 0xA0C, size: 0x8, addend: 0x0, symName: _philosopher_eat, symObjAddr: 0x1D4, symBinAddr: 0x100001EF8, symSize: 0x100 }
+  - { offset: 0xA42, size: 0x8, addend: 0x0, symName: _take_forks, symObjAddr: 0x2D4, symBinAddr: 0x100001FF8, symSize: 0x354 }
+  - { offset: 0xA86, size: 0x8, addend: 0x0, symName: _release_forks, symObjAddr: 0x628, symBinAddr: 0x10000234C, symSize: 0x1E0 }
+  - { offset: 0xAC6, size: 0x8, addend: 0x0, symName: _handle_single_philosopher, symObjAddr: 0x808, symBinAddr: 0x10000252C, symSize: 0x128 }
+  - { offset: 0xB14, size: 0x8, addend: 0x0, symName: _handle_death, symObjAddr: 0x0, symBinAddr: 0x100002668, symSize: 0x174 }
+  - { offset: 0xD5E, size: 0x8, addend: 0x0, symName: _handle_death, symObjAddr: 0x0, symBinAddr: 0x100002668, symSize: 0x174 }
+  - { offset: 0xDA2, size: 0x8, addend: 0x0, symName: _death_monitor, symObjAddr: 0x174, symBinAddr: 0x1000027DC, symSize: 0x80 }
+  - { offset: 0xDD8, size: 0x8, addend: 0x0, symName: _monitor_philosophers, symObjAddr: 0x1F4, symBinAddr: 0x10000285C, symSize: 0x12C }
+  - { offset: 0xE1C, size: 0x8, addend: 0x0, symName: _check_all_ate_enough, symObjAddr: 0x320, symBinAddr: 0x100002988, symSize: 0x14C }
+  - { offset: 0xE60, size: 0x8, addend: 0x0, symName: _check_philosopher_death, symObjAddr: 0x46C, symBinAddr: 0x100002AD4, symSize: 0x160 }
+  - { offset: 0xEB2, size: 0x8, addend: 0x0, symName: _handle_all_ate_enough, symObjAddr: 0x5CC, symBinAddr: 0x100002C34, symSize: 0x8C }
+  - { offset: 0xF1E, size: 0x8, addend: 0x0, symName: _get_time, symObjAddr: 0x0, symBinAddr: 0x100002CD4, symSize: 0x54 }
+  - { offset: 0xF3A, size: 0x8, addend: 0x0, symName: _get_time, symObjAddr: 0x0, symBinAddr: 0x100002CD4, symSize: 0x54 }
+  - { offset: 0xF62, size: 0x8, addend: 0x0, symName: _print_state, symObjAddr: 0x54, symBinAddr: 0x100002D28, symSize: 0x174 }
+  - { offset: 0xFA6, size: 0x8, addend: 0x0, symName: _is_simulation_stopped, symObjAddr: 0x1C8, symBinAddr: 0x100002E9C, symSize: 0x84 }
+  - { offset: 0xFDC, size: 0x8, addend: 0x0, symName: _ft_atoi, symObjAddr: 0x24C, symBinAddr: 0x100002F20, symSize: 0x2E8 }
+  - { offset: 0x102E, size: 0x8, addend: 0x0, symName: _set_simulation_stop, symObjAddr: 0x534, symBinAddr: 0x100003208, symSize: 0x8C }
+  - { offset: 0x1060, size: 0x8, addend: 0x0, symName: _get_last_meal_time, symObjAddr: 0x5C0, symBinAddr: 0x100003294, symSize: 0x78 }
+  - { offset: 0x1096, size: 0x8, addend: 0x0, symName: _update_last_meal_time, symObjAddr: 0x638, symBinAddr: 0x10000330C, symSize: 0x80 }
+  - { offset: 0x10C8, size: 0x8, addend: 0x0, symName: _get_meals_eaten, symObjAddr: 0x6B8, symBinAddr: 0x10000338C, symSize: 0x78 }
+  - { offset: 0x10FE, size: 0x8, addend: 0x0, symName: _increment_meals_eaten, symObjAddr: 0x730, symBinAddr: 0x100003404, symSize: 0x78 }
+...
