@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:08:54 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/25 23:20:49 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/26 14:37:06 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@
 int	check_philosopher_death(t_philo *philo, long current_time)
 {
 	long	last_meal;
-	int		time_to_die;
 	long	time_since_last_meal;
-	bool	tight_timing;
+	int		time_to_die;
 
 	// Check if simulation has already been stopped
 	if (is_simulation_stopped(philo->data))
@@ -28,58 +27,28 @@ int	check_philosopher_death(t_philo *philo, long current_time)
 		
 	time_to_die = philo->data->time_to_die;
 	
-	// Determine if we're operating with tight timing constraints
-	tight_timing = (time_to_die < 3 * (philo->data->time_to_eat + philo->data->time_to_sleep));
-	
 	// Get last meal time with proper mutex protection
 	pthread_mutex_lock(&philo->data->meal_lock);
 	last_meal = philo->last_meal_time;
 	pthread_mutex_unlock(&philo->data->meal_lock);
 	
-	// If philosopher hasn't eaten yet (just started), use start time
+	// Calculate time since last meal with zero tolerance
 	if (last_meal == 0)
-		last_meal = philo->data->start_time;
-	
-	// Calculate time since last meal
-	time_since_last_meal = current_time - last_meal;
-	
-	// Add a larger grace period for all timing scenarios
-	// The grace period needs to account for the scheduling overhead
-	if (tight_timing && time_since_last_meal <= time_to_die + 50)
-		return (0);
-	
-	// If philosopher has exceeded time_to_die, handle death
-	if (time_since_last_meal > time_to_die)
 	{
-		// Double-check to prevent false positives - wait longer for tight timing
-		if (tight_timing)
-		{
-			usleep(5000);
-		}
-		else
-		{
-			usleep(1000);
-		}
-		current_time = get_time();
-		
-		pthread_mutex_lock(&philo->data->meal_lock);
-		last_meal = philo->last_meal_time;
-		pthread_mutex_unlock(&philo->data->meal_lock);
-		
-		// If philosopher hasn't eaten yet, use start time
-		if (last_meal == 0)
-			last_meal = philo->data->start_time;
-		
-		// Recalculate time since last meal
+		// Philosopher hasn't eaten yet, use simulation time directly
+		time_since_last_meal = current_time;
+	}
+	else
+	{
 		time_since_last_meal = current_time - last_meal;
-		
-		// Add increased grace period during the recheck
-		if (tight_timing && time_since_last_meal <= time_to_die + 50)
-			return (0);
-		
-		// If still over time_to_die, handle death
-		if (time_since_last_meal > time_to_die)
-			return (handle_death(philo, current_time));
+	}
+	
+	// Exact timing check - don't allow even 1ms of delay
+	// Handle death exactly when time_since_last_meal equals time_to_die
+	if (time_since_last_meal >= time_to_die)
+	{
+		// Prioritize this death check over other operations
+		return (handle_death(philo, time_to_die));
 	}
 	
 	return (0);
@@ -88,25 +57,24 @@ int	check_philosopher_death(t_philo *philo, long current_time)
 /*
 ** Handle philosopher death - update state and print message
 */
-int	handle_death(t_philo *philo, long current_time)
+int	handle_death(t_philo *philo, long death_time)
 {
 	// Check if simulation was already stopped
 	if (is_simulation_stopped(philo->data))
 		return (0);
 	
-	// Set simulation to stopped state
+	// Set simulation to stopped state immediately
 	set_simulation_stop(philo->data, true);
 	
-	// Print death message
+	// Print death message with the exact death time
 	pthread_mutex_lock(&philo->data->print_lock);
-	printf("%ld %d died\n", 
-		current_time - philo->data->start_time, philo->id);
+	printf("%ld %d died\n", death_time, philo->id);
 	pthread_mutex_unlock(&philo->data->print_lock);
 	
-	// Wake up scheduler to notify all philosophers
-	pthread_mutex_lock(&philo->data->scheduler->lock);
-	pthread_cond_broadcast(&philo->data->scheduler->cond);
-	pthread_mutex_unlock(&philo->data->scheduler->lock);
+	// Signal all waiting threads to wake up immediately
+	pthread_mutex_lock(&philo->data->timekeeper->lock);
+	pthread_cond_broadcast(&philo->data->timekeeper->cond);
+	pthread_mutex_unlock(&philo->data->timekeeper->lock);
 	
 	return (1);
 }
@@ -123,7 +91,7 @@ static int	monitor_philosophers(t_data *data)
 	if (is_simulation_stopped(data))
 		return (1);
 		
-	current_time = get_time();
+	current_time = get_sim_time(data);
 	
 	// Check each philosopher for death
 	i = 0;
@@ -147,57 +115,26 @@ static int	monitor_philosophers(t_data *data)
 void	*death_monitor(void *arg)
 {
 	t_data	*data;
-	bool	tight_timing;
-	bool	philos_ready;
+	struct timespec ts;
 
 	data = (t_data *)arg;
 	
-	// Determine if we're operating with tight timing constraints
-	tight_timing = (data->time_to_die < 3 * (data->time_to_eat + data->time_to_sleep));
+	// Very minimal startup delay
+	usleep(200);
 	
-	// Wait for all philosophers to be ready
+	// Configure nanosleep parameters
+	ts.tv_sec = 0;
+	ts.tv_nsec = 500000; // 0.5ms
+	
+	// Main monitoring loop with high-frequency checks
 	while (!is_simulation_stopped(data))
 	{
-		// Check all_philos_ready with proper mutex protection
-		pthread_mutex_lock(&data->scheduler->lock);
-		philos_ready = data->all_philos_ready;
-		pthread_mutex_unlock(&data->scheduler->lock);
-		
-		if (philos_ready)
-			break;
-		
-		usleep(1000);
-	}
-	
-	// Give philosophers a short time to start eating - longer for tight timing
-	if (tight_timing)
-	{
-		usleep(20000);
-	}
-	else
-	{
-		usleep(5000);
-	}
-	
-	// Main monitoring loop
-	while (!is_simulation_stopped(data))
-	{
+		// Check philosophers' status with high priority
 		if (monitor_philosophers(data))
 			break;
 			
-		// Sleep to reduce CPU usage but still check frequently enough
-		// Use a shorter interval for timing constraints
-		// Ensure we check more frequently than half the time_to_die
-		int sleep_time;
-		if (data->time_to_die / 4 > 1000)
-		{
-			sleep_time = 1000;
-		}
-		else
-		{
-			sleep_time = data->time_to_die / 4;
-		}
-		usleep(sleep_time);
+		// Ultra-precise sleep to maintain timing accuracy
+		nanosleep(&ts, NULL);
 	}
 	
 	return (NULL);
@@ -242,10 +179,10 @@ int	check_all_ate_enough(t_data *data)
 	{
 		set_simulation_stop(data, true);
 		
-		// Wake up scheduler to notify all philosophers
-		pthread_mutex_lock(&data->scheduler->lock);
-		pthread_cond_broadcast(&data->scheduler->cond);
-		pthread_mutex_unlock(&data->scheduler->lock);
+		// Wake up any waiting philosophers
+		pthread_mutex_lock(&data->timekeeper->lock);
+		pthread_cond_broadcast(&data->timekeeper->cond);
+		pthread_mutex_unlock(&data->timekeeper->lock);
 		
 		return (1);
 	}

@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:08:54 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/25 21:58:53 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/26 14:12:25 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ int	wait_and_cleanup(t_data *data)
 	// Join monitoring thread
 	pthread_join(data->monitor_thread, NULL);
 	
-	// Join scheduler thread
-	pthread_join(data->scheduler->thread, NULL);
+	// Join timekeeper thread
+	pthread_join(data->timekeeper->thread, NULL);
 	
 	// Clean up resources
 	cleanup_simulation(data);

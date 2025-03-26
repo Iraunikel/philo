@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:08:54 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/25 22:19:00 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/26 14:11:06 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ int	init_data(t_data *data)
 {
 	data->philosophers = NULL;
 	data->forks = NULL;
-	data->start_time = 0;
 	data->simulation_stop = false;
-	data->all_philos_ready = false;
-	data->scheduler = NULL;
+	data->timekeeper = NULL;
 	return (0);
 }
 
@@ -49,17 +47,13 @@ int	init_mutexes(t_data *data)
 	// Initialize other synchronization mutexes
 	if (pthread_mutex_init(&data->print_lock, NULL) != 0)
 		return (1);
-	if (pthread_mutex_init(&data->death_lock, NULL) != 0)
-		return (1);
 	if (pthread_mutex_init(&data->meal_lock, NULL) != 0)
 		return (1);
 	if (pthread_mutex_init(&data->stop_lock, NULL) != 0)
 		return (1);
-	if (pthread_mutex_init(&data->global_lock, NULL) != 0)
-		return (1);
 	
-	// Initialize scheduler
-	if (init_scheduler(data) != 0)
+	// Initialize timekeeper
+	if (init_timekeeper(data) != 0)
 		return (1);
 		
 	return (0);
@@ -93,20 +87,17 @@ int	init_philosophers(t_data *data)
 }
 
 /*
-** Create philosopher threads and the scheduler thread
+** Create philosopher threads and the timekeeper thread
 */
 int	create_philosopher_threads(t_data *data)
 {
 	int	i;
 
-	// Record start time for all philosophers
-	data->start_time = get_time();
-	
-	// Create scheduler thread first
-	if (pthread_create(&data->scheduler->thread, NULL, scheduler_routine, data) != 0)
+	// Create timekeeper thread first
+	if (pthread_create(&data->timekeeper->thread, NULL, timekeeper_routine, data) != 0)
 		return (1);
 	
-	// Small delay to allow scheduler to initialize
+	// Small delay to allow timekeeper to initialize
 	usleep(1000);
 	
 	// Create philosopher threads
@@ -150,17 +141,15 @@ int	cleanup_simulation(t_data *data)
 	
 	// Destroy other mutexes
 	pthread_mutex_destroy(&data->print_lock);
-	pthread_mutex_destroy(&data->death_lock);
 	pthread_mutex_destroy(&data->meal_lock);
 	pthread_mutex_destroy(&data->stop_lock);
-	pthread_mutex_destroy(&data->global_lock);
 	
-	// Clean up scheduler
-	if (data->scheduler)
+	// Clean up timekeeper
+	if (data->timekeeper)
 	{
-		pthread_mutex_destroy(&data->scheduler->lock);
-		pthread_cond_destroy(&data->scheduler->cond);
-		free(data->scheduler);
+		pthread_mutex_destroy(&data->timekeeper->lock);
+		pthread_cond_destroy(&data->timekeeper->cond);
+		free(data->timekeeper);
 	}
 	
 	// Free philosopher array

@@ -6,60 +6,28 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:08:54 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/25 23:23:11 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/26 14:37:06 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-** Precise sleep function that ensures accurate timing
+** Wait until a specific time has elapsed
 */
-void	precise_sleep(int ms)
+int	precise_sleep_until(t_philo *philo, long target_time)
 {
-	long	start;
-	long	current;
-	long	elapsed;
-
-	start = get_time();
-	while (1)
-	{
-		current = get_time();
-		elapsed = current - start;
-		if (elapsed >= ms)
-			break;
-		if (ms - elapsed > 10)
-			usleep(500);
-		else
-			usleep(100);
-	}
-}
-
-/*
-** Interruptible precise sleep function that can be stopped if simulation stops
-*/
-int	precise_sleep_interruptible(t_philo *philo, int ms)
-{
-	long	start;
-	long	current;
-	long	elapsed;
-
-	start = get_time();
-	while (1)
-	{
-		// Check if simulation has stopped
-		if (is_simulation_stopped(philo->data))
-			return (1);
-			
-		current = get_time();
-		elapsed = current - start;
-		if (elapsed >= ms)
-			break;
-		if (ms - elapsed > 10)
-			usleep(500);
-		else
-			usleep(100);
-	}
+	// If simulation has stopped, return immediately
+	if (is_simulation_stopped(philo->data))
+		return (1);
+		
+	// Wait until target time using the timekeeper
+	wait_until(philo, target_time);
+	
+	// Check if simulation has stopped while waiting
+	if (is_simulation_stopped(philo->data))
+		return (1);
+		
 	return (0);
 }
 
@@ -69,7 +37,7 @@ int	precise_sleep_interruptible(t_philo *philo, int ms)
 int	philosopher_eat(t_philo *philo)
 {
 	long	current_time;
-	int		result;
+	long	eat_end_time;
 
 	// Skip if simulation has stopped
 	if (is_simulation_stopped(philo->data))
@@ -85,32 +53,28 @@ int	philosopher_eat(t_philo *philo)
 	// Update philosopher state to eating
 	philo->state = STATE_EATING;
 	
-	// Get current time for meal timestamp
-	current_time = get_time();
+	// Get current simulation time immediately for precise meal timestamp
+	current_time = get_sim_time(philo->data);
 	
-	// Update last meal time with proper mutex protection BEFORE printing
+	// Update last meal time atomically
 	pthread_mutex_lock(&philo->data->meal_lock);
 	philo->last_meal_time = current_time;
 	pthread_mutex_unlock(&philo->data->meal_lock);
 	
-	// Print eating state AFTER updating meal time
+	// Print eating state
 	print_state(philo, "is eating");
 	
-	// Sleep for time_to_eat duration, with interrupt check
-	result = 0;
-	long start_time = get_time();
-	while ((get_time() - start_time) < philo->data->time_to_eat)
+	// Calculate exact time when eating should end
+	eat_end_time = current_time + philo->data->time_to_eat;
+	
+	// Wait until exact end time using timekeeper for precise timing
+	if (precise_sleep_until(philo, eat_end_time))
 	{
-		// Check for simulation stop periodically
-		if (is_simulation_stopped(philo->data))
-		{
-			result = 1;
-			break;
-		}
-		usleep(1000);
+		release_forks(philo);
+		return (1);
 	}
 	
-	// Increment meals eaten with proper mutex protection
+	// Increment meals eaten atomically
 	pthread_mutex_lock(&philo->data->meal_lock);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->data->meal_lock);
@@ -118,7 +82,7 @@ int	philosopher_eat(t_philo *philo)
 	// Always release forks before returning
 	release_forks(philo);
 	
-	return (result);
+	return (0);
 }
 
 /*
@@ -126,6 +90,9 @@ int	philosopher_eat(t_philo *philo)
 */
 int	philosopher_sleep(t_philo *philo)
 {
+	long current_time;
+	long end_time;
+	
 	// Skip if simulation has stopped
 	if (is_simulation_stopped(philo->data))
 		return (1);
@@ -136,8 +103,14 @@ int	philosopher_sleep(t_philo *philo)
 	// Print sleeping state
 	print_state(philo, "is sleeping");
 	
-	// Sleep for time_to_sleep duration and check for interruption
-	return precise_sleep_interruptible(philo, philo->data->time_to_sleep);
+	// Get current simulation time
+	current_time = get_sim_time(philo->data);
+	
+	// Calculate when sleeping should end
+	end_time = current_time + philo->data->time_to_sleep;
+	
+	// Wait until end time
+	return precise_sleep_until(philo, end_time);
 }
 
 /*
@@ -145,6 +118,10 @@ int	philosopher_sleep(t_philo *philo)
 */
 int	philosopher_think(t_philo *philo)
 {
+	long current_time;
+	long end_time;
+	long think_time;
+	
 	// Skip if simulation has stopped
 	if (is_simulation_stopped(philo->data))
 		return (1);
@@ -155,47 +132,59 @@ int	philosopher_think(t_philo *philo)
 	// Print thinking state
 	print_state(philo, "is thinking");
 	
-	// Think for a very short time - prioritize getting back to eating
-	usleep(500);
+	// Get current simulation time
+	current_time = get_sim_time(philo->data);
 	
-	return (0);
+	// Calculate a short thinking time (adaptive based on eating/sleeping times)
+	think_time = 10;  // Minimum thinking time
+	if (philo->data->time_to_die > philo->data->time_to_eat + philo->data->time_to_sleep)
+	{
+		// If there's time, think for a reasonable amount to avoid CPU spinning
+		think_time = (philo->data->time_to_die - philo->data->time_to_eat - philo->data->time_to_sleep) / 2;
+		if (think_time > 100)
+			think_time = 100;  // Cap thinking time at 100ms
+	}
+	
+	// Calculate when thinking should end
+	end_time = current_time + think_time;
+	
+	// Wait until end time
+	return precise_sleep_until(philo, end_time);
 }
 
 /*
-** Main philosopher routine that coordinates with the scheduler
+** Main philosopher routine
 */
 void	*philosopher_routine(void *arg)
 {
 	t_philo *philo;
 	int meals_target;
 	int current_meals;
-	long current_time;
-
+	
 	philo = (t_philo *)arg;
 	meals_target = philo->data->meals_to_eat;
 	
 	// Initialize philosopher state
 	philo->state = STATE_THINKING;
 	
-	// Signal to scheduler that this philosopher is ready
-	pthread_mutex_lock(&philo->data->scheduler->lock);
-	philo->data->scheduler->ready_philos++;
-	pthread_mutex_unlock(&philo->data->scheduler->lock);
-	
-	// Initial thinking state - set initial meal time
-	current_time = get_time();
+	// Set initial meal time
 	pthread_mutex_lock(&philo->data->meal_lock);
-	philo->last_meal_time = current_time;
+	philo->last_meal_time = 0;
 	pthread_mutex_unlock(&philo->data->meal_lock);
+	
+	// Print initial thinking state
 	print_state(philo, "is thinking");
+	
+	// Give odd-numbered philosophers a head start to reduce contention
+	if (philo->id % 2 != 0)
+	{
+		if (precise_sleep_until(philo, 20))
+			return (NULL);
+	}
 	
 	// Main philosopher loop
 	while (!is_simulation_stopped(philo->data))
 	{
-		// Wait for scheduler permission to act
-		if (wait_for_turn(philo) == ACTION_SIMULATION_STOPPED)
-			break;
-		
 		// Check if philosopher has eaten enough meals
 		if (meals_target != -1)
 		{
@@ -206,40 +195,21 @@ void	*philosopher_routine(void *arg)
 			if (current_meals >= meals_target)
 			{
 				philo->state = STATE_DONE;
-				signal_action_complete(philo);
 				break;
 			}
 		}
 		
-		// Perform philosopher actions in sequence, prioritizing eating
+		// Eat
 		if (philosopher_eat(philo))
-		{
-			signal_action_complete(philo);
 			break;
-		}
-		
+			
+		// Sleep
 		if (philosopher_sleep(philo))
-		{
-			signal_action_complete(philo);
 			break;
-		}
-		
+			
+		// Think
 		if (philosopher_think(philo))
-		{
-			signal_action_complete(philo);
 			break;
-		}
-		
-		// Signal to scheduler that this cycle is complete
-		signal_action_complete(philo);
-	}
-	
-	// Cleanup: make sure philosopher's state is cleaned up properly
-	// This ensures any locks held by this philosopher are released
-	if (philo->state == STATE_EATING)
-	{
-		// If philosopher was eating, make sure to release the forks
-		release_forks(philo);
 	}
 	
 	return (NULL);

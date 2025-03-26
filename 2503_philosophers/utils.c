@@ -6,14 +6,14 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:08:54 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/25 23:19:56 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/26 14:35:39 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-** Get current time in milliseconds
+** Get current timestamp in milliseconds
 */
 long	get_time(void)
 {
@@ -24,40 +24,40 @@ long	get_time(void)
 }
 
 /*
-** Print philosopher state change with proper mutex protection
+** Print philosopher state with proper timestamp
 */
 int	print_state(t_philo *philo, char *state)
 {
-	long	current_time;
+	long	timestamp;
 
-	// Skip if simulation has been stopped
+	// Skip if simulation has stopped
 	if (is_simulation_stopped(philo->data))
-		return (0);
-
-	current_time = get_time();
+		return (1);
 	
-	// Use print lock to prevent interleaved output
+	// Get current simulation timestamp
+	timestamp = get_sim_time(philo->data);
+	
+	// Print state with proper mutex protection
 	pthread_mutex_lock(&philo->data->print_lock);
 	
-	// Double check simulation status before printing
 	if (!is_simulation_stopped(philo->data))
 	{
-		printf("%ld %d %s\n", 
-			current_time - philo->data->start_time, philo->id, state);
+		printf("%ld %d %s\n", timestamp, philo->id, state);
 	}
 	
 	pthread_mutex_unlock(&philo->data->print_lock);
-	return (1);
+	
+	return (0);
 }
 
 /*
-** Convert string to integer with error checking
+** Parse string to integer with error checking
 */
 int	ft_atoi(const char *str)
 {
-	int			i;
-	int			sign;
-	long		result;
+	int	i;
+	int	sign;
+	int	result;
 
 	i = 0;
 	sign = 1;
@@ -66,7 +66,7 @@ int	ft_atoi(const char *str)
 	// Skip whitespace
 	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		i++;
-		
+	
 	// Handle sign
 	if (str[i] == '-' || str[i] == '+')
 	{
@@ -75,23 +75,19 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	
-	// Convert digits
+	// Convert to integer
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		result = result * 10 + (str[i] - '0');
-		
 		// Check for overflow
-		if (result * sign > INT_MAX || result * sign < INT_MIN)
+		if (result > INT_MAX / 10 || (result == INT_MAX / 10 && str[i] - '0' > INT_MAX % 10))
 		{
 			if (sign == 1)
-			{
-				return (-1);
-			}
+				return (INT_MAX);
 			else
-			{
-				return (0);
-			}
+				return (INT_MIN);
 		}
+		
+		result = result * 10 + (str[i] - '0');
 		i++;
 	}
 	
@@ -99,18 +95,17 @@ int	ft_atoi(const char *str)
 }
 
 /*
-** Check if simulation should stop
+** Check if simulation has been stopped
 */
 bool	is_simulation_stopped(t_data *data)
 {
-	bool	result;
+	bool	stopped;
 
-	// Always use stop_lock for simulation_stop, not global_lock
 	pthread_mutex_lock(&data->stop_lock);
-	result = data->simulation_stop;
+	stopped = data->simulation_stop;
 	pthread_mutex_unlock(&data->stop_lock);
 	
-	return (result);
+	return (stopped);
 }
 
 /*

@@ -1,7 +1,7 @@
 NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
-SRCFILES = philo.c init.c routine.c monitoring.c utils.c scheduler.c fork_utils.c
+SRCFILES = philo.c init.c routine.c monitoring.c utils.c timekeeper.c fork_utils.c
 OBJFILES = $(SRCFILES:.c=.o)
 
 all: $(NAME)

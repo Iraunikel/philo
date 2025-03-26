@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:08:54 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/25 21:55:25 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/26 14:24:53 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@
 # include <stdbool.h>
 # include <limits.h>
 
-# define MIN_SLEEP_TIME 10
-# define SYNC_INTERVAL 5
+# define TIME_PRECISION 1000
+# define STEP_SIZE 1
+# define MAX_SAFETY_MARGIN 2
 
 typedef struct s_philo	t_philo;
-typedef struct s_scheduler t_scheduler;
+typedef struct s_timekeeper t_timekeeper;
 typedef struct s_data t_data;
 
 typedef enum e_action_result
@@ -44,16 +45,15 @@ typedef enum e_philo_state
 	STATE_DONE = 4
 } t_philo_state;
 
-typedef struct s_scheduler
+typedef struct s_timekeeper
 {
 	pthread_mutex_t	lock;
 	pthread_cond_t	cond;
-	int				ready_philos;
-	int				active_philos;
-	bool			cycle_complete;
-	long			last_check_time;
+	long			current_time;
+	long			start_time;
+	bool			running;
 	pthread_t		thread;
-} t_scheduler;
+} t_timekeeper;
 
 typedef struct s_data
 {
@@ -62,18 +62,14 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				meals_to_eat;
-	long			start_time;
 	bool			simulation_stop;
-	bool			all_philos_ready;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
-	pthread_mutex_t	death_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	stop_lock;
-	pthread_mutex_t	global_lock;
 	t_philo			*philosophers;
 	pthread_t		monitor_thread;
-	t_scheduler		*scheduler;
+	t_timekeeper	*timekeeper;
 } t_data;
 
 typedef struct s_philo
@@ -104,7 +100,7 @@ int		cleanup_simulation(t_data *data);
 
 /* routine.c */
 void	*philosopher_routine(void *arg);
-void	precise_sleep(int ms);
+int		precise_sleep_until(t_philo *philo, long target_time);
 int		philosopher_eat(t_philo *philo);
 int		philosopher_sleep(t_philo *philo);
 int		philosopher_think(t_philo *philo);
@@ -126,12 +122,11 @@ void	update_last_meal_time(t_philo *philo, long time);
 int		get_meals_eaten(t_philo *philo);
 void	increment_meals_eaten(t_philo *philo);
 
-/* scheduler.c */
-void	*scheduler_routine(void *arg);
-int		init_scheduler(t_data *data);
-t_action_result	wait_for_turn(t_philo *philo);
-t_action_result	signal_action_complete(t_philo *philo);
-t_action_result	synchronize_philosophers(t_data *data);
+/* timekeeper.c */
+void	*timekeeper_routine(void *arg);
+int		init_timekeeper(t_data *data);
+long	get_sim_time(t_data *data);
+void	wait_until(t_philo *philo, long target_time);
 
 /* fork_utils.c */
 int		take_forks(t_philo *philo);
