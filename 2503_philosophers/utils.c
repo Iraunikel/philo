@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:08:54 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/25 22:24:55 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/25 23:19:56 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,16 @@ int	ft_atoi(const char *str)
 		
 		// Check for overflow
 		if (result * sign > INT_MAX || result * sign < INT_MIN)
-			return (sign == 1 ? -1 : 0);
+		{
+			if (sign == 1)
+			{
+				return (-1);
+			}
+			else
+			{
+				return (0);
+			}
+		}
 		i++;
 	}
 	

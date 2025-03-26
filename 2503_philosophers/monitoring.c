@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:08:54 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/25 22:23:52 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/25 23:20:49 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,23 @@ int	check_philosopher_death(t_philo *philo, long current_time)
 	// Calculate time since last meal
 	time_since_last_meal = current_time - last_meal;
 	
-	// Add a small grace period for tight timing constraints
-	if (tight_timing && time_since_last_meal <= time_to_die + 25)
+	// Add a larger grace period for all timing scenarios
+	// The grace period needs to account for the scheduling overhead
+	if (tight_timing && time_since_last_meal <= time_to_die + 50)
 		return (0);
 	
 	// If philosopher has exceeded time_to_die, handle death
 	if (time_since_last_meal > time_to_die)
 	{
 		// Double-check to prevent false positives - wait longer for tight timing
-		usleep(tight_timing ? 5000 : 1000);
+		if (tight_timing)
+		{
+			usleep(5000);
+		}
+		else
+		{
+			usleep(1000);
+		}
 		current_time = get_time();
 		
 		pthread_mutex_lock(&philo->data->meal_lock);
@@ -65,8 +73,8 @@ int	check_philosopher_death(t_philo *philo, long current_time)
 		// Recalculate time since last meal
 		time_since_last_meal = current_time - last_meal;
 		
-		// Add grace period for tight timing during the recheck
-		if (tight_timing && time_since_last_meal <= time_to_die + 25)
+		// Add increased grace period during the recheck
+		if (tight_timing && time_since_last_meal <= time_to_die + 50)
 			return (0);
 		
 		// If still over time_to_die, handle death
@@ -162,7 +170,14 @@ void	*death_monitor(void *arg)
 	}
 	
 	// Give philosophers a short time to start eating - longer for tight timing
-	usleep(tight_timing ? 20000 : 5000);
+	if (tight_timing)
+	{
+		usleep(20000);
+	}
+	else
+	{
+		usleep(5000);
+	}
 	
 	// Main monitoring loop
 	while (!is_simulation_stopped(data))
@@ -171,8 +186,18 @@ void	*death_monitor(void *arg)
 			break;
 			
 		// Sleep to reduce CPU usage but still check frequently enough
-		// Use a shorter interval for tight timing
-		usleep(tight_timing ? 500 : 1000);
+		// Use a shorter interval for timing constraints
+		// Ensure we check more frequently than half the time_to_die
+		int sleep_time;
+		if (data->time_to_die / 4 > 1000)
+		{
+			sleep_time = 1000;
+		}
+		else
+		{
+			sleep_time = data->time_to_die / 4;
+		}
+		usleep(sleep_time);
 	}
 	
 	return (NULL);
