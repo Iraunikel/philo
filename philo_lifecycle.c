@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:00 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/27 23:04:28 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/28 11:23:23 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int	philo_eat(t_philo *p)
 {
 	if (get_sim_state(p->d) || !take_forks(p))
 		return (0);
+	print_state(p, "is eating");
 	pthread_mutex_lock(&p->d->m);
 	p->last_meal = get_time() - p->d->start;
 	p->meals++;
 	pthread_mutex_unlock(&p->d->m);
-	print_state(p, "is eating");
 	precise_sleep(p->d->t_eat);
 	release_forks(p);
 	return (1);
@@ -51,6 +51,7 @@ int	philo_sleep_think(t_philo *p)
 void	*philo_routine(void *arg)
 {
 	t_philo	*p;
+	int		stop;
 
 	p = (t_philo *)arg;
 	pthread_mutex_lock(&p->d->m);
@@ -59,8 +60,13 @@ void	*philo_routine(void *arg)
 	print_state(p, "is thinking");
 	if (p->id % 2)
 		usleep(1000);
-	while (!get_sim_state(p->d))
+	while (1)
 	{
+		pthread_mutex_lock(&p->d->m);
+		stop = p->d->stop;
+		pthread_mutex_unlock(&p->d->m);
+		if (stop)
+			break ;
 		if (!philo_eat(p))
 			break ;
 		if (!philo_sleep_think(p))

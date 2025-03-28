@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:00 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/27 23:04:09 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/28 11:22:59 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,18 @@ int	check_death(t_data *d, int i, long time)
 
 	pthread_mutex_lock(&d->m);
 	last = d->p[i].last_meal;
-	pthread_mutex_unlock(&d->m);
 	if (last == 0)
 		since = time;
 	else
 		since = time - last;
-	if (since >= d->t_die)
+	if (since >= d->t_die && !d->stop)
 	{
-		set_sim_state(d, 1);
-		pthread_mutex_lock(&d->m);
+		d->stop = 1;
 		printf("%ld %d died\n", time, d->p[i].id);
 		pthread_mutex_unlock(&d->m);
 		return (1);
 	}
+	pthread_mutex_unlock(&d->m);
 	return (0);
 }
 
@@ -46,16 +45,16 @@ int	check_meals_complete(t_data *d)
 	all = 1;
 	if (d->n_meals == -1)
 		return (0);
+	pthread_mutex_lock(&d->m);
 	while (++i < d->n_philo && all)
 	{
-		pthread_mutex_lock(&d->m);
 		meals = d->p[i].meals;
-		pthread_mutex_unlock(&d->m);
 		if (meals < d->n_meals)
 			all = 0;
 	}
-	if (all)
-		set_sim_state(d, 1);
+	if (all && !d->stop)
+		d->stop = 1;
+	pthread_mutex_unlock(&d->m);
 	return (all);
 }
 
@@ -76,7 +75,7 @@ void	*monitor_routine(void *arg)
 				return (NULL);
 		if (check_meals_complete(d))
 			return (NULL);
-		usleep(500);
+		usleep(100);
 	}
 	return (NULL);
 }

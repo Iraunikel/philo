@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:00 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/27 23:02:56 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/28 11:21:42 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,18 @@ void	set_sim_state(t_data *d, int v)
 
 int	print_state(t_philo *p, char *s)
 {
-	if (get_sim_state(p->d))
-		return (1);
+	long	time;
+	int		stop;
+
 	pthread_mutex_lock(&p->d->m);
-	if (!p->d->stop)
-		printf("%ld %d %s\n", get_time() - p->d->start, p->id, s);
+	stop = p->d->stop;
+	if (stop)
+	{
+		pthread_mutex_unlock(&p->d->m);
+		return (1);
+	}
+	time = get_time() - p->d->start;
+	printf("%ld %d %s\n", time, p->id, s);
 	pthread_mutex_unlock(&p->d->m);
 	return (0);
 }
