@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:00 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/27 23:02:21 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/28 18:53:20 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	int				n_philo;
+	int				n_philo; 
 	int				t_die;
 	int				t_eat;
 	int				t_sleep;
 	int				n_meals;
 	int				stop;
 	long			start;
-	pthread_mutex_t	*f;
-	pthread_mutex_t	m;
+	pthread_mutex_t	*f; 
+	pthread_mutex_t	m; 
 	t_philo			*p;
 	pthread_t		mon;
 }					t_data;
