@@ -1,49 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   state_management.c                                 :+:      :+:    :+:   */
+/*   time_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:00 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/28 11:21:42 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/31 20:34:39 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/* State management functions */
-int	get_sim_state(t_data *d)
+long	get_time(void)
 {
-	int	s;
+	struct timeval	tv;
 
-	pthread_mutex_lock(&d->m);
-	s = d->stop;
-	pthread_mutex_unlock(&d->m);
-	return (s);
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void	set_sim_state(t_data *d, int v)
+static long	calculate_sleep_interval(long ms, long elapsed)
 {
-	pthread_mutex_lock(&d->m);
-	d->stop = v;
-	pthread_mutex_unlock(&d->m);
+	long	sleep_interval;
+
+	sleep_interval = ms - elapsed;
+	if (sleep_interval > 20)
+		sleep_interval = 20;
+	else if (sleep_interval > 0)
+		sleep_interval = 1;
+	return (sleep_interval);
 }
 
-int	print_state(t_philo *p, char *s)
+int	precise_sleep(long ms)
 {
-	long	time;
-	int		stop;
+	long	start;
+	long	elapsed;
+	long	sleep_interval;
 
-	pthread_mutex_lock(&p->d->m);
-	stop = p->d->stop;
-	if (stop)
+	start = get_time();
+	while (1)
 	{
-		pthread_mutex_unlock(&p->d->m);
-		return (1);
+		elapsed = get_time() - start;
+		if (elapsed >= ms)
+			break ;
+		sleep_interval = calculate_sleep_interval(ms, elapsed);
+		usleep(sleep_interval * 100);
 	}
-	time = get_time() - p->d->start;
-	printf("%ld %d %s\n", time, p->id, s);
-	pthread_mutex_unlock(&p->d->m);
 	return (0);
 }

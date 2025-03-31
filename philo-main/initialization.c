@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:00 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/27 23:01:34 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/31 20:54:12 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	init_simulation(t_data *d)
 	return (0);
 }
 
-int	cleanup_simulation(t_data *d)
+static void	cleanup_forks(t_data *d)
 {
 	int	i;
 
@@ -73,10 +73,17 @@ int	cleanup_simulation(t_data *d)
 	if (d->f)
 	{
 		while (++i < d->n_philo)
-			pthread_mutex_destroy(&d->f[i]);
+			try_unlock_mutex(&d->f[i]);
 		free(d->f);
 	}
-	pthread_mutex_destroy(&d->m);
+}
+
+int	cleanup_simulation(t_data *d)
+{
+	set_sim_state(d, 1);
+	usleep(10000);
+	cleanup_forks(d);
+	try_unlock_mutex(&d->m);
 	if (d->p)
 	{
 		free(d->p);

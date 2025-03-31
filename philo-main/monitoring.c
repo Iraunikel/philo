@@ -6,35 +6,13 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:00 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/28 11:22:59 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/31 18:16:14 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/* Monitoring functions */
-int	check_death(t_data *d, int i, long time)
-{
-	long	last;
-	long	since;
-
-	pthread_mutex_lock(&d->m);
-	last = d->p[i].last_meal;
-	if (last == 0)
-		since = time;
-	else
-		since = time - last;
-	if (since >= d->t_die && !d->stop)
-	{
-		d->stop = 1;
-		printf("%ld %d died\n", time, d->p[i].id);
-		pthread_mutex_unlock(&d->m);
-		return (1);
-	}
-	pthread_mutex_unlock(&d->m);
-	return (0);
-}
-
+/* Main monitoring functions */
 int	check_meals_complete(t_data *d)
 {
 	int	i;
@@ -75,7 +53,7 @@ void	*monitor_routine(void *arg)
 				return (NULL);
 		if (check_meals_complete(d))
 			return (NULL);
-		usleep(100);
+		usleep(1000);
 	}
 	return (NULL);
 }

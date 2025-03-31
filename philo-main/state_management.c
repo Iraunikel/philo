@@ -1,32 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time_utils.c                                       :+:      :+:    :+:   */
+/*   state_management.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:00 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/27 23:05:36 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/31 18:55:26 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/* Time utility functions */
-long	get_time(void)
+int	get_sim_state(t_data *d)
 {
-	struct timeval	tv;
+	int	s;
 
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	pthread_mutex_lock(&d->m);
+	s = d->stop;
+	pthread_mutex_unlock(&d->m);
+	return (s);
 }
 
-int	precise_sleep(long ms)
+void	set_sim_state(t_data *d, int v)
 {
-	long	start;
+	pthread_mutex_lock(&d->m);
+	d->stop = v;
+	pthread_mutex_unlock(&d->m);
+}
 
-	start = get_time();
-	while (get_time() - start < ms)
-		usleep(500);
+int	print_state(t_philo *p, char *s)
+{
+	long	time;
+	int		stop;
+
+	pthread_mutex_lock(&p->d->m);
+	stop = p->d->stop;
+	if (stop)
+	{
+		pthread_mutex_unlock(&p->d->m);
+		return (1);
+	}
+	time = get_time() - p->d->start;
+	printf("%ld %d %s\n", time, p->id, s);
+	pthread_mutex_unlock(&p->d->m);
 	return (0);
 }

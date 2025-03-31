@@ -6,7 +6,7 @@
 /*   By: iunikel <marvin@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:00 by iunikel           #+#    #+#             */
-/*   Updated: 2025/03/27 23:03:33 by iunikel          ###   ########.fr       */
+/*   Updated: 2025/03/31 20:54:12 by iunikel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,14 @@ int	ft_atoi(char const *str)
 	while (*str >= '0' && *str <= '9')
 		nbr = nbr * 10 + *str++ - '0';
 	return (nbr * sign);
+}
+
+void	try_unlock_mutex(pthread_mutex_t *mutex)
+{
+	int	result;
+
+	result = pthread_mutex_trylock(mutex);
+	if (result == 0)
+		pthread_mutex_unlock(mutex);
+	pthread_mutex_destroy(mutex);
 }
