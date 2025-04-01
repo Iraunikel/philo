@@ -1,0 +1,156 @@
+## Philosophers Program Analysis
+
+### 1. Thread per philosopher
+Yes, there is one thread per philosopher. 
+- File: `simulation.c`
+- Function: `run_simulation()`
+- Lines 32-38: Each philosopher gets its own thread created with `pthread_create(&d->p[i].th, NULL, philo_routine, &d->p[i])` within a loop iterating through all philosophers.
+- Additionally, there is a separate monitor thread created to check for death and meal completion.
+
+### 2. One fork per philosopher
+Yes, there is one fork per philosopher.
+- File: `initialization.c`
+- Function: `init_mutexes()`
+- Lines 18-22: One mutex (fork) is initialized for each philosopher with `pthread_mutex_init(&d->f[i], NULL)` in a loop.
+- Also, in the function `init_simulation()`, the forks array is allocated with `d->f = malloc(sizeof(pthread_mutex_t) * d->n_philo)`.
+
+### 3. Mutex per fork for checking/changing values
+Yes, each fork is protected by a mutex.
+- File: `fork_management.c`
+- Function: `take_forks()` and helper functions
+- The program uses mutex locks like `pthread_mutex_lock(&p->d->f[first])` to lock forks before a philosopher can use them.
+- File: `fork_strategies.c`
+- Functions like `try_starving_strategy()` and `try_take_second_fork()` use mutex operations to safely access and lock forks.
+
+### 4. Output never produces scrambled view
+Yes, the output is protected from scrambling.
+- File: `state_management.c`
+- Function: `print_state()`
+- Lines 32-47: All printing is done within a mutex lock section (using `p->d->m`), ensuring that only one philosopher can print at a time.
+- Before printing, the function checks if the simulation has stopped.
+
+### 5. Death checking mechanism
+Death is checked in a separate monitor thread and protected by a mutex.
+- File: `death_check.c`
+- Function: `check_death()`
+- The function locks a mutex with `pthread_mutex_lock(&d->m)` before checking a philosopher's status.
+- Death is determined by calculating the time since the last meal and comparing it to the time to die.
+- When a death is detected, the `stop` flag is set to prevent philosophers from continuing to eat.
+- File: `monitoring.c`
+- Function: `monitor_routine()`
+- This runs in a separate thread that periodically checks all philosophers for death conditions.
+
+### Program's Unique Approach and Stability Features
+
+The Philosophers program simulates the dining philosophers problem with a focus on stability and deadlock prevention. It employs several unique strategies:
+
+1. **Advanced Fork Acquisition Strategies**:
+   - Uses ordered locking (philosophers always take lowest-numbered fork first)
+   - Implements a starvation-prevention system where starving philosophers get priority
+   - Uses timeout-based backoff to prevent repeated failed attempts
+
+2. **Adaptive Thinking Times**:
+   - Philosophers adjust their thinking time based on how close they are to starvation
+   - Different strategies for even/odd philosophers to prevent synchronization issues
+
+3. **Robust Death Detection**:
+   - Separate monitor thread for checking deaths without interfering with philosopher actions
+   - Mutex protection for last_meal updates to prevent race conditions
+   - Safety margins to account for potential execution delays
+
+4. **Program Flow**:
+```
+┌─────────────────┐        ┌───────────────────┐
+│ Initialization  │───────►│  Create Threads   │
+└─────────────────┘        └─────────┬─────────┘
+                                     │
+                                     ▼
+┌──────────────────────────────────────────────────┐
+│               Monitor Thread                      │
+│  ┌─────────────┐    ┌────────────┐    ┌────────┐ │
+│  │ Check Death │───►│ Check Meals│───►│ Sleep  │ │
+│  └──────┬──────┘    └────────────┘    └────────┘ │
+│         │                                         │
+│         │ (If death detected)                     │
+│         ▼                                         │
+│  ┌─────────────┐                                  │
+│  │   Set Stop  │                                  │
+│  └─────────────┘                                  │
+└──────────────────────────────────────────────────┘
+                                     │
+          ┌────────────────────────────────────────┐
+          │                                        │
+          ▼                                        ▼
+┌─────────────────────┐            ┌───────────────────────┐
+│ Philosopher Thread 1│            │ Philosopher Thread N  │
+└──────────┬──────────┘            └───────────┬───────────┘
+           │                                   │
+           ▼                                   ▼
+    ┌─────────────┐                    ┌─────────────┐
+    │  Take Forks │                    │  Take Forks │
+    └──────┬──────┘                    └──────┬──────┘
+           │                                  │
+           ▼                                  ▼
+    ┌─────────────┐                    ┌─────────────┐
+    │     Eat     │                    │     Eat     │
+    └──────┬──────┘                    └──────┬──────┘
+           │                                  │
+           ▼                                  ▼
+    ┌─────────────┐                    ┌─────────────┐
+    │    Sleep    │                    │    Sleep    │
+    └──────┬──────┘                    └──────┬──────┘
+           │                                  │
+           ▼                                  ▼
+    ┌─────────────┐                    ┌─────────────┐
+    │    Think    │                    │    Think    │
+    └──────┬──────┘                    └──────┬──────┘
+           │                                  │
+           └──────────────────────────────────┘
+                            │
+                            ▼
+                    ┌───────────────┐
+                    │ Join Threads  │
+                    └───────┬───────┘
+                            │
+                            ▼
+                    ┌───────────────┐
+                    │     Exit      │
+                    └───────────────┘
+```
+
+The program's stability comes from its proactive approach to deadlock prevention, starvation awareness, and robust synchronization mechanisms. 
+
+### Advanced Fork Sustainability System
+
+The program implements a sophisticated fork management system that goes beyond basic deadlock prevention:
+
+1. **Hierarchical Fork Priority**:
+   - Forks are acquired in numerical order (`get_fork_order()` in `fork_strategies.c`) to prevent circular deadlock
+   - Each philosopher always attempts to take the lower-numbered fork first, creating a hierarchy that prevents deadlock scenarios
+
+2. **Adaptive Starvation Prevention**:
+   - The `handle_starvation_check()` function in `fork_strategies.c` calculates the philosopher's remaining time before starvation
+   - If a philosopher is close to starvation (< 30% of time_to_die remaining), they enter an urgent "starving strategy" which takes both forks immediately
+   - This guarantees that no philosopher will starve due to continuous fork contention
+
+3. **Dynamic Backoff Mechanism**:
+   - When a philosopher fails to acquire both forks, they don't release immediately but use a smart backoff strategy (`backoff_and_check()` function)
+   - The backoff time is personalized to each philosopher (using ID modulo) to prevent synchronized attempts
+   - This reduces contention and ensures fair distribution of eating opportunities
+
+4. **Phased Thinking**:
+   - Philosophers with even IDs wait slightly longer before starting (5ms vs 3ms for odd IDs) to break potential symmetry
+   - The `should_skip_thinking()` function in `philo_lifecycle.c` intelligently reduces thinking time when a philosopher is closer to starvation
+   - This creates a natural priority system where hungrier philosophers get more opportunities to eat
+
+5. **Resource Efficiency**:
+   - The program implements a two-phase fork acquisition strategy to prevent deadlocks
+   - It uses mutex locking with appropriate state checking to minimize resource contention
+   - The fork acquisition logic in `fork_management.c` checks simulation state before each attempt to prevent wasted operations
+
+6. **Predictive Scheduling**:
+   - The program calculates optimal timings based on the time_to_die parameter
+   - It adjusts fork acquisition strategies when eating and sleeping times are close to the time_to_die value
+   - In single-philosopher scenarios, a special strategy is used (`handle_single_fork()`) that optimizes the behavior
+
+This comprehensive system ensures maximum stability and fairness while maintaining high resource utilization. By combining ordered resource acquisition, time-based priority, adaptive thinking periods, and intelligent backoff mechanisms, the program achieves robust performance across various philosopher counts and timing parameters. 
